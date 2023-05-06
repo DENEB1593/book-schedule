@@ -9,13 +9,12 @@ import org.springframework.stereotype.Component
 @Component
 class BookScheduler(val bookRepository: BookRepository) {
 
-    val LOG: Logger = LoggerFactory.getLogger(BookScheduler::class.java)
+    val log: Logger = LoggerFactory.getLogger(BookScheduler::class.java)
 
     @Scheduled(fixedRate = 5000)
     fun countBook() {
         val count = bookRepository.count()
 
-        LOG.info("book count : {}", count)
-
+        log.info("book count : {}", count)
     }
 }

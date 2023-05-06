@@ -16,4 +16,8 @@ class Book (
     @Column
     val createdAt: LocalDateTime,
 
-)
+) {
+    override fun toString(): String {
+        return "Book(isbn=$isbn, title='$title', createdAt=$createdAt)"
+    }
+}
