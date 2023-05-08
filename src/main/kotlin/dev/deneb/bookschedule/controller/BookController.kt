@@ -3,6 +3,7 @@ package dev.deneb.bookschedule.controller
 import dev.deneb.bookschedule.model.Book
 import dev.deneb.bookschedule.model.BookDto
 import dev.deneb.bookschedule.repository.BookRepository
+import dev.deneb.bookschedule.service.BookService
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.http.ResponseEntity
@@ -12,7 +13,7 @@ import java.time.LocalDateTime
 @RestController
 @RequestMapping("api/books")
 class BookController(
-    private val bookRepository: BookRepository) {
+    private val bookService: BookService) {
 
     val log: Logger = LoggerFactory.getLogger(BookController::class.java)
 
@@ -22,7 +23,7 @@ class BookController(
 
         val book = Book(title = bookDto.title, createdAt = LocalDateTime.now())
 
-        bookRepository.save(book)
+        bookService.save(book)
 
         return ResponseEntity.ok(book)
     }
@@ -31,9 +32,16 @@ class BookController(
     fun findByIsdn(@PathVariable isdn: Long): ResponseEntity<Book> {
         log.info("request isdn: {}", isdn)
 
-        val book = bookRepository.findById(isdn).orElseThrow { RuntimeException() }
+        return ResponseEntity.ok(
+                bookService.findById(isdn))
+    }
 
-        return ResponseEntity.ok(book)
+    @GetMapping
+    fun findAll(): ResponseEntity<List<Book>> {
+
+        return ResponseEntity.ok(
+                bookService.findAll().orEmpty()
+        );
     }
 
 

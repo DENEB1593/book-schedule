@@ -5,7 +5,6 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
-import org.springframework.data.repository.findByIdOrNull
 import java.time.LocalDateTime
 
 @DataJpaTest
@@ -33,6 +32,13 @@ class BookRepositoryTest {
 
         assertThat(result).isNotNull()
         assertThat(result.title).isEqualTo("test for find by isdn")
+    }
+
+    @Test
+    fun findAllTest() {
+        val books = bookRepository.findAll().orEmpty()
+
+        assertThat(books).hasSize(0)
     }
 
 
